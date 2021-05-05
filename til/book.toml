@@ -1,0 +1,7 @@
+[book]
+title="Today I Learned"
+authors = ["UsingPython"]
+description="A collection of small things I learn day to day accross programming languages and technologies"
+language = "en"
+multilingual = false
+src = "src"
