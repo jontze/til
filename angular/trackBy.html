@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Class Property Syntax Sugar - Today I Learned</title>
+        <title>NgFor And TrackBy - Today I Learned</title>
         
         
 
@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded "><a href="../typescript/typescript.html"><strong aria-hidden="true">1.</strong> Typescript</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../typescript/syntax-sugar-class-property.html" class="active"><strong aria-hidden="true">1.1.</strong> Class Property Syntax Sugar</a></li></ol></li><li class="chapter-item expanded "><a href="../angular/angular.html"><strong aria-hidden="true">2.</strong> Angular</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../angular/trackBy.html"><strong aria-hidden="true">2.1.</strong> NgFor And TrackBy</a></li></ol></li><li class="chapter-item expanded "><a href="../rust/rust.html"><strong aria-hidden="true">3.</strong> Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">3.1.</strong> To be continued</div></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded "><a href="../typescript/typescript.html"><strong aria-hidden="true">1.</strong> Typescript</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../typescript/syntax-sugar-class-property.html"><strong aria-hidden="true">1.1.</strong> Class Property Syntax Sugar</a></li></ol></li><li class="chapter-item expanded "><a href="../angular/angular.html"><strong aria-hidden="true">2.</strong> Angular</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../angular/trackBy.html" class="active"><strong aria-hidden="true">2.1.</strong> NgFor And TrackBy</a></li></ol></li><li class="chapter-item expanded "><a href="../rust/rust.html"><strong aria-hidden="true">3.</strong> Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">3.1.</strong> To be continued</div></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,31 +163,28 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="public-class-propertys-syntax-sugar"><a class="header" href="#public-class-propertys-syntax-sugar">Public Class Propertys Syntax Sugar</a></h1>
-<p>If you write a typescript class and define a variable in the constructor with the prefix 'public' it is the same as you would define a public property to the class.</p>
-<p><strong>So the following typescript code...</strong></p>
-<pre><code class="language-ts">class Foo {
-  constructor(public bar: boolean = true) {}
-}
-
-class Bar {
-  public foo: boolean;
-  constructor(foo = true) {
-    this.foo = foo;
-  }
-}
+                        <h1 id="ngfor-loops-and-trackby"><a class="header" href="#ngfor-loops-and-trackby"># NgFor Loops and TrackBy</a></h1>
+<p>If you handle large arrays with ngFor and want to edit, remove or add new entries it can impact the performance badly due to expensive DOM manipulations.</p>
+<p>To prevent that angular has the possibility to add a <code>trackBy</code> function to the ngFor directive. This function has the index and the current item as arguments and should return a unique identifier to track the old item to the new item. This identifier could for example be an unique <code>id</code>, <code>name</code> or even the position (<code>index</code>) in the array.</p>
+<p>This will have a positive effect on the performance, since Angular now only has to re-render the changed or added elements and not the whole array.</p>
+<p><strong>Here is an example</strong></p>
+<pre><code class="language-html">&lt;table class=&quot;table&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Name&lt;/th&gt;
+      &lt;th&gt;Permission&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr *ngFor=&quot;let user of allUsers; trackBy: identifyByName&quot;&gt;
+      &lt;td&gt;user.name&lt;/td&gt;
+      &lt;td&gt;user.permission&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 </code></pre>
-<p><strong>Gets compiled to this javascript code...</strong></p>
-<pre><code class="language-js">class Foo {
-  constructor(bar = true) {
-    this.bar = bar;
-  }
-}
-
-class Bar {
-  constructor(foo = true) {
-    this.foo = foo;
-  }
+<pre><code class="language-ts">identifyByName(index: number, item: User): string {
+  return item.name
 }
 </code></pre>
 
@@ -196,13 +193,13 @@ class Bar {
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="../typescript/typescript.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../angular/angular.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="../angular/angular.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../rust/rust.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -214,13 +211,13 @@ class Bar {
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="../typescript/typescript.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../angular/angular.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a rel="next" href="../angular/angular.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../rust/rust.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
