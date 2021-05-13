@@ -1,4 +1,4 @@
-# # NgFor Loops and TrackBy
+# NgFor Loops and TrackBy
 
 If you handle large arrays with ngFor and want to edit, remove or add new entries it can impact the performance badly due to expensive DOM manipulations.
 
