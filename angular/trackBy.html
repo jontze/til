@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded "><a href="../typescript/typescript.html"><strong aria-hidden="true">1.</strong> Typescript</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../typescript/syntax-sugar-class-property.html"><strong aria-hidden="true">1.1.</strong> Class Property Syntax Sugar</a></li></ol></li><li class="chapter-item expanded "><a href="../angular/angular.html"><strong aria-hidden="true">2.</strong> Angular</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../angular/trackBy.html" class="active"><strong aria-hidden="true">2.1.</strong> NgFor And TrackBy</a></li></ol></li><li class="chapter-item expanded "><a href="../rust/rust.html"><strong aria-hidden="true">3.</strong> Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">3.1.</strong> To be continued</div></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded "><a href="../typescript/typescript.html"><strong aria-hidden="true">1.</strong> Typescript</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../typescript/syntax-sugar-class-property.html"><strong aria-hidden="true">1.1.</strong> Class Property Syntax Sugar</a></li><li class="chapter-item expanded "><a href="../typescript/enum-reverse-mapping.html"><strong aria-hidden="true">1.2.</strong> Enum Reverse Mapping</a></li></ol></li><li class="chapter-item expanded "><a href="../angular/angular.html"><strong aria-hidden="true">2.</strong> Angular</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../angular/trackBy.html" class="active"><strong aria-hidden="true">2.1.</strong> NgFor And TrackBy</a></li></ol></li><li class="chapter-item expanded "><a href="../rust/rust.html"><strong aria-hidden="true">3.</strong> Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">3.1.</strong> To be continued</div></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,7 +163,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="ngfor-loops-and-trackby"><a class="header" href="#ngfor-loops-and-trackby"># NgFor Loops and TrackBy</a></h1>
+                        <h1 id="ngfor-loops-and-trackby"><a class="header" href="#ngfor-loops-and-trackby">NgFor Loops and TrackBy</a></h1>
 <p>If you handle large arrays with ngFor and want to edit, remove or add new entries it can impact the performance badly due to expensive DOM manipulations.</p>
 <p>To prevent that angular has the possibility to add a <code>trackBy</code> function to the ngFor directive. This function has the index and the current item as arguments and should return a unique identifier to track the old item to the new item. This identifier could for example be an unique <code>id</code>, <code>name</code> or even the position (<code>index</code>) in the array.</p>
 <p>This will have a positive effect on the performance, since Angular now only has to re-render the changed or added elements and not the whole array.</p>
