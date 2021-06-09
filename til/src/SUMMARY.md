@@ -11,3 +11,4 @@
   - [Unsubscribe Subscription](angular/unsub-sub.md)
 - [Rust](rust/rust.md)
   - [Module Imports](rust/module-import.md)
+  - [Ridiculous small & fast images](rust/small-docker-images.md)
