@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Typescript - Today I Learned</title>
+        <title>Ridiculous small &amp; fast images - Today I Learned</title>
         
         
 
@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded "><a href="../typescript/typescript.html" class="active"><strong aria-hidden="true">1.</strong> Typescript</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../typescript/syntax-sugar-class-property.html"><strong aria-hidden="true">1.1.</strong> Class Property Syntax Sugar</a></li><li class="chapter-item expanded "><a href="../typescript/enum-reverse-mapping.html"><strong aria-hidden="true">1.2.</strong> Enum Reverse Mapping</a></li><li class="chapter-item expanded "><a href="../typescript/equality-null-undefind.html"><strong aria-hidden="true">1.3.</strong> Equality null - undefined</a></li></ol></li><li class="chapter-item expanded "><a href="../angular/angular.html"><strong aria-hidden="true">2.</strong> Angular</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../angular/trackBy.html"><strong aria-hidden="true">2.1.</strong> NgFor And TrackBy</a></li><li class="chapter-item expanded "><a href="../angular/unsub-sub.html"><strong aria-hidden="true">2.2.</strong> Unsubscribe Subscription</a></li></ol></li><li class="chapter-item expanded "><a href="../rust/rust.html"><strong aria-hidden="true">3.</strong> Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../rust/module-import.html"><strong aria-hidden="true">3.1.</strong> Module Imports</a></li><li class="chapter-item expanded "><a href="../rust/small-docker-images.html"><strong aria-hidden="true">3.2.</strong> Ridiculous small &amp; fast images</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded "><a href="../typescript/typescript.html"><strong aria-hidden="true">1.</strong> Typescript</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../typescript/syntax-sugar-class-property.html"><strong aria-hidden="true">1.1.</strong> Class Property Syntax Sugar</a></li><li class="chapter-item expanded "><a href="../typescript/enum-reverse-mapping.html"><strong aria-hidden="true">1.2.</strong> Enum Reverse Mapping</a></li><li class="chapter-item expanded "><a href="../typescript/equality-null-undefind.html"><strong aria-hidden="true">1.3.</strong> Equality null - undefined</a></li></ol></li><li class="chapter-item expanded "><a href="../angular/angular.html"><strong aria-hidden="true">2.</strong> Angular</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../angular/trackBy.html"><strong aria-hidden="true">2.1.</strong> NgFor And TrackBy</a></li><li class="chapter-item expanded "><a href="../angular/unsub-sub.html"><strong aria-hidden="true">2.2.</strong> Unsubscribe Subscription</a></li></ol></li><li class="chapter-item expanded "><a href="../rust/rust.html"><strong aria-hidden="true">3.</strong> Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../rust/module-import.html"><strong aria-hidden="true">3.1.</strong> Module Imports</a></li><li class="chapter-item expanded "><a href="../rust/small-docker-images.html" class="active"><strong aria-hidden="true">3.2.</strong> Ridiculous small &amp; fast images</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,23 +163,54 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="typescript"><a class="header" href="#typescript">Typescript</a></h1>
-<p>This section is a collection of all typescript related things.</p>
+                        <h1 id="create-ridiculously-small-and-fast-docker-images"><a class="header" href="#create-ridiculously-small-and-fast-docker-images">Create ridiculously small and fast docker images</a></h1>
+<p>With the help of the crate <a href="https://crates.io/crates/cargo-chef">cargo-chef</a> you can create ridiculously <strong>small and fast docker images with rust</strong>.</p>
+<p>When using the rust image to build your source files and run the binary you have a big docker image (<strong>&gt;1GB</strong>) with cargo and all utils installed. But you actually don't need them to run a rust binary in production.</p>
+<p>Cargo chef encapsulate the the building processes in multiple steps that are cached and therefor very fast to build. Furthermore the execution of the binary is seperatet from any build tools and can be runned in a small debian or ubuntu image.</p>
+<p>With this method I could reduce my image size <strong>from <em>~1.2Gb</em> to <em>~90MB</em></strong>.</p>
+<p><em>Here an example...</em></p>
+<pre><code class="language-Dockerfile">
+FROM lukemathwalker/cargo-chef as planner
+WORKDIR /backend
+COPY . .
+RUN cargo chef prepare --recipe-path recipe.json
+
+FROM lukemathwalker/cargo-chef as cacher
+WORKDIR /backend
+COPY --from=planner /backend/recipe.json recipe.json
+RUN cargo chef cook --release --recipe-path recipe.json
+
+FROM rust:1.52 as builder
+WORKDIR /backend
+COPY . .
+COPY --from=cacher /backend/target target
+COPY --from=cacher $CARGO_HOME $CARGO_HOME
+RUN cargo build --release --bin house-backend
+
+FROM debian:buster-slim AS runtime
+WORKDIR /backend
+# Install Project dependencies
+RUN apt-get update -y \
+    &amp;&amp; apt-get install -y --no-install-recommends openssl libpq-dev \
+    # Clean up
+    &amp;&amp; apt-get autoremove -y \
+    &amp;&amp; apt-get clean -y \
+    &amp;&amp; rm -rf /var/lib/apt/lists/*
+COPY --from=builder /backend/target/release/house-backend backend
+CMD [ &quot;./backend&quot; ]
+
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="../intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../rust/module-import.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
-                        
-                            <a rel="next" href="../typescript/syntax-sugar-class-property.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
                         
 
                         <div style="clear: both"></div>
@@ -189,15 +220,11 @@
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="../intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../rust/module-import.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
-                
-                    <a rel="next" href="../typescript/syntax-sugar-class-property.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
                 
             </nav>
 
