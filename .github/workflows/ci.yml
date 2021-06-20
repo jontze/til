@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup mdBook and linkcheck
+        uses: UsingPython/action-mdbook@master
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          mdbook-version: "~0.4.7"
+          use-linkcheck: true
+          linkcheck-version: ~0.7.4
+      - name: Build mdBook
+        run: mdbook build
+  deploy:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup mdBook and linkcheck
+        uses: UsingPython/action-mdbook@master
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          mdbook-version: "~0.4.7"
+          use-linkcheck: true
+          linkcheck-version: ~0.7.4
+      - name: Build mdBook
+        run: mdbook build
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          publish_dir: ./book
