@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup mdBook and linkcheck
-        uses: UsingPython/action-mdbook@master
+        uses: UsingPython/action-mdbook@v1
         with:
           token: ${{secrets.GITHUB_TOKEN}}
           mdbook-version: "~0.4.7"
